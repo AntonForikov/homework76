@@ -13,7 +13,6 @@ const PostList = () => {
     try {
       const {data} = await axios.get<MessageWithIdAndDate[]>('http://localhost:8000/messages');
       setPosts(data.reverse());
-      console.log(data);
     } catch (e) {
       console.error(e);
       alert('Please check URL!');
@@ -29,7 +28,7 @@ const PostList = () => {
   return (
     <>
       {loading
-        ? <Grid margin='auto'><CircularProgress /></Grid>
+        ? <Grid container justifyContent='center' mt={2}><CircularProgress /></Grid>
         : posts.map((post) => {
           return <PostItem
             key={post.id}
