@@ -1,10 +1,15 @@
-import AddForm from './components/AddForm';
+import AddForm from './components/AddForm/AddForm';
+import {Grid} from '@mui/material';
+import PostList from './components/Post/PostList';
 
 function App() {
 
   return (
     <>
-      <AddForm/>
+      <Grid maxWidth='95%' margin='auto'>
+        <AddForm/>
+        <PostList/>
+      </Grid>
     </>
   );
 }

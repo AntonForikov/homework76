@@ -1,7 +1,7 @@
 import {Button, Grid, TextField} from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import React, {useState} from 'react';
-import {Message} from '../types';
+import {Message} from '../../types';
 import axios from 'axios';
 
 const initialMessage: Message = {
@@ -33,7 +33,7 @@ const AddForm = () => {
   };
   return (
     <form onSubmit={onFormSubmit}>
-      <Grid container justifyContent="space-between">
+      <Grid container justifyContent="space-between" mt={2}>
         <TextField
           sx={{width: '43%'}}
           variant="outlined"
