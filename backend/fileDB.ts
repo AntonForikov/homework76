@@ -20,7 +20,7 @@ const fileDB = {
     const message = {
       id: crypto.randomUUID(),
       ...item,
-      date: new Date()
+      dateTime: new Date()
     }
     data.push({...message});
     await this.save();

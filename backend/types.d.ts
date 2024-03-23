@@ -6,5 +6,5 @@ export interface Message {
 
 export interface MessageWithIdAndDate extends Message {
   id: string,
-  date: Date
+  dateTime: Date
 }
