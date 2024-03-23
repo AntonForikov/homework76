@@ -11,7 +11,7 @@ interface PostState {
 const initialState: PostState = {
   postList: [],
   loading: false
-}
+};
 
 const postSlice = createSlice({
   name: 'post',
@@ -25,9 +25,9 @@ const postSlice = createSlice({
       state.postList = action.payload.reverse();
     }).addCase(getPosts.rejected, (state) => {
       state.loading = false;
-    })
+    });
   }
-})
+});
 
 export const postReducer = postSlice.reducer;
 export const selectPostList = (state: RootState) => state.post.postList;
