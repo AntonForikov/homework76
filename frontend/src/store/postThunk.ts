@@ -6,6 +6,6 @@ export const getPosts = createAsyncThunk(
   'post/get',
   async () => {
     const {data} = await axios.get<MessageWithIdAndDate[]>('http://localhost:8000/messages');
-    return data
+    return data;
   }
 );
