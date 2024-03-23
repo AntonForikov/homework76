@@ -3,12 +3,17 @@ import SendIcon from '@mui/icons-material/Send';
 import React, {useState} from 'react';
 import {Message} from '../../types';
 import axios from 'axios';
+import {useAppDispatch, useAppSelector} from '../../app/hooks';
+import {selectLoading} from '../../store/postSlice';
+import {getPosts} from '../../store/postThunk';
 
 const initialMessage: Message = {
   author: '',
   message: ''
 };
 const AddForm = () => {
+  const loading = useAppSelector(selectLoading);
+  const dispatch = useAppDispatch();
   const [message, setMessage] = useState<Message>(initialMessage);
 
   const changeMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,6 +31,8 @@ const AddForm = () => {
     } else {
       try {
         await axios.post('http://localhost:8000/messages', message);
+        await dispatch(getPosts());
+        setMessage(initialMessage);
       } catch (e) {
         console.error(e);
       }
@@ -50,7 +57,7 @@ const AddForm = () => {
           value={message.message}
           onChange={changeMessage}
         />
-        <Button type="submit" variant="contained" endIcon={<SendIcon/>}>
+        <Button type="submit" variant="contained" endIcon={<SendIcon/>} disabled={loading}>
           Send
         </Button>
       </Grid>

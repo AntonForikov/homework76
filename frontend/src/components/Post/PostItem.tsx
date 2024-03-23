@@ -17,12 +17,12 @@ const PostItem: React.FC<Props> = ({message, author, dateTime}) => {
     if (
       currentDate.getDate() > date.getDate() && currentDate.getMonth() === date.getMonth() ||
       currentDate.getDate() < date.getDate() && currentDate.getMonth() > date.getMonth()
-    ) return `Yesterday at: ${dayjs().format('HH:mm:ss')}`;
+    ) return `Yesterday at ${dayjs().format('HH:mm:ss')}`;
 
     if (
       currentDate.getDate() === date.getDate() &&
       currentDate.getFullYear() === date.getFullYear()
-    ) return `Today at: ${dayjs().format('HH:mm:ss')}`;
+    ) return `Today at ${dayjs().format('HH:mm:ss')}`;
 
     return dayjs(dateTime).format('D MMM YYYY HH:mm:ss');
   };

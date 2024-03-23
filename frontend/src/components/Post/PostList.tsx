@@ -1,42 +1,33 @@
-import {useCallback, useEffect, useState} from 'react';
-import {MessageWithIdAndDate} from '../../types';
-import axios from 'axios';
-import {CircularProgress, Grid} from '@mui/material';
+import {useEffect} from 'react';
+import {Alert, CircularProgress, Grid} from '@mui/material';
 import PostItem from './PostItem';
+import {useAppDispatch, useAppSelector} from '../../app/hooks';
+import {selectLoading, selectPostList} from '../../store/postSlice';
+import {getPosts} from '../../store/postThunk';
 
 const PostList = () => {
-  const [posts, setPosts] = useState<MessageWithIdAndDate[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  const getPosts = useCallback(async () => {
-    setLoading(true);
-    try {
-      const {data} = await axios.get<MessageWithIdAndDate[]>('http://localhost:8000/messages');
-      setPosts(data.reverse());
-    } catch (e) {
-      console.error(e);
-      alert('Please check URL!');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const postList = useAppSelector(selectPostList);
+  const loading = useAppSelector(selectLoading);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    void getPosts();
-  }, [getPosts]);
+    dispatch(getPosts());
+  }, [dispatch]);
 
   return (
     <>
       {loading
         ? <Grid container justifyContent='center' mt={2}><CircularProgress /></Grid>
-        : posts.map((post) => {
-          return <PostItem
-            key={post.id}
-            message={post.message}
-            author={post.author}
-            dateTime={post.dateTime}
-          />;
-        })
+        : !loading && postList.length > 0
+          ? postList.map((post) => {
+            return <PostItem
+              key={post.id}
+              message={post.message}
+              author={post.author}
+              dateTime={post.dateTime}
+            />;
+          })
+          : <Alert severity="warning" sx={{marginTop: 2}}>There are no posts</Alert>
       }
     </>
   );
