@@ -1,8 +1,10 @@
+import AddForm from './components/AddForm';
+
 function App() {
 
   return (
     <>
-      <div>Hello world</div>
+      <AddForm/>
     </>
   );
 }
