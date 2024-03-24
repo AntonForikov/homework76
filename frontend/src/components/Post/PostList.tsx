@@ -1,27 +1,19 @@
-import {useCallback, useEffect} from 'react';
+import {useEffect} from 'react';
 import {Alert, CircularProgress, Grid} from '@mui/material';
 import PostItem from './PostItem';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
-import {selectLastDate, selectLoading, selectPostList} from '../../store/postSlice';
-import {getLastPostDate, getTargetPosts} from '../../store/postThunk';
+import {selectLoading, selectPostList} from '../../store/postSlice';
+import {getLastPostDate} from '../../store/postThunk';
 
 const PostList = () => {
   const postList = useAppSelector(selectPostList);
-  const lastDate = useAppSelector(selectLastDate);
   const loading = useAppSelector(selectLoading);
   const dispatch = useAppDispatch();
 
-  const getLastData = useCallback(async () => {
-    if (lastDate) await dispatch(getTargetPosts(lastDate));
-  }, [dispatch, lastDate]);
 
   useEffect(() => {
     dispatch(getLastPostDate());
   }, [dispatch]);
-
-  useEffect(() => {
-    void getLastData();
-  }, [getLastData]);
 
   return (
     <>

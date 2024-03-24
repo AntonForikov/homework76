@@ -8,7 +8,7 @@ export const getLastPostDate = createAsyncThunk(
     try {
       const {data} = await axiosApi.get<MessageWithIdAndDate[] | undefined>('/messages');
       if (data) {
-        return data[data.length - 1].dateTime;
+        return data.reverse();
       }
     } catch (e) {
       console.error(e);

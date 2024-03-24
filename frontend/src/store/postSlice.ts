@@ -24,7 +24,10 @@ const postSlice = createSlice({
       state.loading = true;
     }).addCase(getLastPostDate.fulfilled, (state, action) => {
       state.loading = false;
-      if (action.payload) state.lastDate = action.payload;
+      if (action.payload) {
+        state.postList = action.payload;
+        if (action.payload.length > 0) state.lastDate = action.payload[0].dateTime;
+      }
     }).addCase(getLastPostDate.rejected, (state) => {
       state.loading = false;
     });

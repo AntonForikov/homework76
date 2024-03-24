@@ -9,7 +9,7 @@ function App() {
       <Grid maxWidth='95%' margin='auto'>
         <Alert variant="filled" severity="warning" sx={{mt: 2}}>
           <strong>Здравствуйте!</strong> Я в третий раз не могу понять ТЗ. А конкретно для чего нужен запрос с <strong>datetime.</strong><br/>
-          В третий раз делаю по отлично от предидущих. В комитах можете посмотреть. <strong>Прошу не судить строго!!!!)))</strong>
+          В третий раз делаю отлично от предидущих. В комитах можете посмотреть. <strong>Прошу не судить строго!!!!)))</strong>
         </Alert>
         <AddForm/>
         <PostList/>
