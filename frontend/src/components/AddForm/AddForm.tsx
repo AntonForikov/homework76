@@ -2,10 +2,10 @@ import {Button, Grid, TextField} from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import React, {useState} from 'react';
 import {Message} from '../../types';
-import axios from 'axios';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
-import {selectLoading} from '../../store/postSlice';
-import {getPosts} from '../../store/postThunk';
+import {selectLastDate, selectLoading} from '../../store/postSlice';
+import {getTargetPosts} from '../../store/postThunk';
+import axiosApi from '../../../axiosApi';
 
 const initialMessage: Message = {
   author: '',
@@ -13,6 +13,7 @@ const initialMessage: Message = {
 };
 const AddForm = () => {
   const loading = useAppSelector(selectLoading);
+  const lastDate = useAppSelector(selectLastDate);
   const dispatch = useAppDispatch();
   const [message, setMessage] = useState<Message>(initialMessage);
 
@@ -30,11 +31,12 @@ const AddForm = () => {
       alert("You cant send message and author started from whitespace or they can't be empty!");
     } else {
       try {
-        await axios.post('http://localhost:8000/messages', message);
-        await dispatch(getPosts());
+        await axiosApi.post('/messages', message);
+        if (lastDate) await dispatch(getTargetPosts(lastDate));
         setMessage(initialMessage);
       } catch (e) {
         console.error(e);
+        alert('Please check URL or run backend server.');
       }
     }
   };
