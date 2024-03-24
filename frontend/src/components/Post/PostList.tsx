@@ -1,18 +1,28 @@
-import {useEffect} from 'react';
+import {useCallback, useEffect} from 'react';
 import {Alert, CircularProgress, Grid} from '@mui/material';
 import PostItem from './PostItem';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
-import {selectLoading, selectPostList} from '../../store/postSlice';
-import {getPosts} from '../../store/postThunk';
+import {selectLastDate, selectLoading, selectPostList} from '../../store/postSlice';
+import {getLastPostDate, getTargetPosts} from '../../store/postThunk';
 
 const PostList = () => {
   const postList = useAppSelector(selectPostList);
+  const lastDate = useAppSelector(selectLastDate);
   const loading = useAppSelector(selectLoading);
   const dispatch = useAppDispatch();
 
+  const getLastData = useCallback(async () => {
+    if (lastDate) await dispatch(getTargetPosts(lastDate));
+    console.log(lastDate);
+  }, [dispatch, lastDate]);
+
   useEffect(() => {
-    dispatch(getPosts());
+    dispatch(getLastPostDate());
   }, [dispatch]);
+
+  useEffect(() => {
+    void getLastData();
+  }, [getLastData]);
 
   return (
     <>
@@ -27,7 +37,7 @@ const PostList = () => {
               dateTime={post.dateTime}
             />;
           })
-          : <Alert severity="warning" sx={{marginTop: 2}}>There are no posts</Alert>
+          : <Alert severity="warning" sx={{marginTop: 2}}>There are no posts. Write something!</Alert>
       }
     </>
   );

@@ -1,16 +1,18 @@
 import {MessageWithIdAndDate} from '../types';
 import {createSlice} from '@reduxjs/toolkit';
 import {RootState} from '../app/store';
-import {getPosts} from './postThunk';
+import {getLastPostDate, getTargetPosts} from './postThunk';
 
 interface PostState {
   postList: MessageWithIdAndDate[],
-  loading: boolean
+  loading: boolean,
+  lastDate: string | null
 }
 
 const initialState: PostState = {
   postList: [],
-  loading: false
+  loading: false,
+  lastDate: null
 };
 
 const postSlice = createSlice({
@@ -18,12 +20,21 @@ const postSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getPosts.pending, (state) => {
+    builder.addCase(getLastPostDate.pending, (state) => {
       state.loading = true;
-    }).addCase(getPosts.fulfilled, (state, action) => {
+    }).addCase(getLastPostDate.fulfilled, (state, action) => {
       state.loading = false;
-      state.postList = action.payload.reverse();
-    }).addCase(getPosts.rejected, (state) => {
+      if (action.payload) state.lastDate = action.payload;
+    }).addCase(getLastPostDate.rejected, (state) => {
+      state.loading = false;
+    });
+
+    builder.addCase(getTargetPosts.pending, (state) => {
+      state.loading = true;
+    }).addCase(getTargetPosts.fulfilled, (state, action) => {
+      state.loading = false;
+      if (action.payload) state.postList = action.payload;
+    }).addCase(getTargetPosts.rejected, (state) => {
       state.loading = false;
     });
   }
@@ -32,3 +43,4 @@ const postSlice = createSlice({
 export const postReducer = postSlice.reducer;
 export const selectPostList = (state: RootState) => state.post.postList;
 export const selectLoading = (state: RootState) => state.post.loading;
+export const selectLastDate = (state: RootState) => state.post.lastDate;
