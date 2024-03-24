@@ -13,7 +13,6 @@ const PostList = () => {
 
   const getLastData = useCallback(async () => {
     if (lastDate) await dispatch(getTargetPosts(lastDate));
-    console.log(lastDate);
   }, [dispatch, lastDate]);
 
   useEffect(() => {

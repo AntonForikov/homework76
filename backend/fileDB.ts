@@ -12,7 +12,7 @@ const fileDB = {
         const fileContents = await fs.readFile(filename);
         data = JSON.parse(fileContents.toString());
       } else {
-        await this.addItem({author: '', message: ''})
+        await this.addItem({author: 'initial', message: 'message'})
       }
     } catch  {
       data = [];
