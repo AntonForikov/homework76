@@ -2,8 +2,8 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {MessageWithIdAndDate} from '../types';
 import axiosApi from '../../axiosApi';
 
-export const getPosts = createAsyncThunk(
-  'post/get',
+export const getLastPostDate = createAsyncThunk(
+  'lastPostData/get',
   async () => {
     try {
       const {data} = await axiosApi.get<MessageWithIdAndDate[] | undefined>('/messages');
