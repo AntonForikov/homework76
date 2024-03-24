@@ -21,7 +21,6 @@ const PostItem: React.FC<Props> = ({message, author, dateTime}) => {
 
     if (
       currentDate.getDate() - dateFromDB.getDate() === 1 && currentDate.getMonth() === dateFromDB.getMonth() &&
-      // currentDate.getDate() < dateFromDB.getDate() && currentDate.getMonth() > dateFromDB.getMonth() ||
       currentDate.getFullYear() === dateFromDB.getFullYear()
     ) return `Yesterday at ${dayjs(dateFromDB).format('HH:mm:ss')}`;
 
