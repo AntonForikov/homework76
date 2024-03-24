@@ -1,14 +1,19 @@
 import {promises as fs} from 'fs';
 import {Message, MessageWithIdAndDate} from './types';
+import * as sync from 'fs';
 
-const filename = './db,json';
+const filename = './db.json';
 let data: MessageWithIdAndDate[] = [];
 
 const fileDB = {
   async init (){
     try {
-      const fileContents = await fs.readFile(filename);
-      data = JSON.parse(fileContents.toString());
+      if (sync.existsSync(filename)) {
+        const fileContents = await fs.readFile(filename);
+        data = JSON.parse(fileContents.toString());
+      } else {
+        await this.addItem({author: '', message: ''})
+      }
     } catch  {
       data = [];
     }
